@@ -1,0 +1,18 @@
+//solution in java
+
+import java.util.*;
+public class Solution {
+    public static List< Integer > superiorElements(int []a) {
+        // Write your code here.
+        ArrayList <Integer> list=new ArrayList<>();
+        int maxi=Integer.MIN_VALUE;
+        for(int i=a.length-1;i>=0;i--){
+            if(a[i]>maxi){
+                list.add(a[i]);
+            }
+            maxi=Math.max(a[i],maxi);
+        }
+        Collections.sort(list);
+        return list;
+    }
+}
