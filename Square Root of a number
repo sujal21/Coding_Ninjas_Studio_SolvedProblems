@@ -1,0 +1,13 @@
+import java.util.* ;
+import java.io.*; 
+
+public class Solution {
+
+	public static int sqrtN(long N) {
+		/*
+		 * Write your code here
+		 */
+		double val=Math.floor(Math.sqrt(N));
+		return (int)val;
+	}
+}
