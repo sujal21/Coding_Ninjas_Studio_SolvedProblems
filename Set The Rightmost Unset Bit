@@ -1,0 +1,20 @@
+public class Solution {
+    public static int setBits(int N){
+        // Write your code here.
+        int n=N;
+        int count=0;
+        while(n!=0){
+            if((n&1)==0){
+                count++;
+            }
+            n=n>>1;
+        }
+        if(count==0){
+            return N;
+        }
+        int num=N;
+        int first=num^(num+1);
+        int second=num|first;
+        return second;
+    }
+}
