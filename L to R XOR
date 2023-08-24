@@ -1,0 +1,10 @@
+public class Solution {
+    public static int findXOR(int L, int R){
+        // Write your code here.
+        int res=0;
+        for(int i=L;i<=R;i++){
+            res=res^i;
+        }
+        return res;
+    }
+}
