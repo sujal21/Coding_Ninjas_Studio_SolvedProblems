@@ -1,0 +1,20 @@
+import java.util.Stack;
+
+public class Solution {
+	static int t=0;
+	public static void rev(Stack<Integer> st,int start,int end){
+		if(start>=end){
+			return;
+		}
+		int temp=st.get(start);
+		st.set(start,st.get(end));
+		st.set(end,temp);
+		rev(st,start+1,end-1);
+	}
+    
+	public static void reverseStack(Stack<Integer> stack) {
+		// write your code here
+		rev(stack,0,stack.size()-1);
+	}
+
+}
