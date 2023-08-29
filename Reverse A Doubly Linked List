@@ -1,0 +1,57 @@
+/****************************************************************
+
+ Following is the class structure of the Node class:
+
+ class Node {
+     public int data;
+     public Node next;
+     public Node prev;
+
+     Node()
+     {
+         this.data = 0;
+         this.next = null;
+         this.prev = null;
+     }
+
+     Node(int data)
+     {
+         this.data = data;
+         this.next = null;
+         this.prev = null;
+     }
+
+     Node(int data, Node next)
+     {
+         this.data = data;
+         this.next = next;
+         this.prev = next;
+     }
+ };
+
+ *****************************************************************/
+
+public class Solution
+{
+    public static Node reverseDLL(Node head)
+    {
+        // Write your code here.
+        Node temp = head;
+        Node tail=head;
+        while(temp.next != null){
+            temp = temp.next;
+            tail=tail.next;
+        }
+        Node back = null;
+        while(temp != head){
+            temp.next = temp.prev;
+            temp.prev = back;
+            back = temp;
+            temp = temp.next;
+        }
+        temp.next = temp.prev;
+        temp.prev = back;
+        head = tail;
+        return head;
+    }
+}
