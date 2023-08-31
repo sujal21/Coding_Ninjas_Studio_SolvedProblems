@@ -1,0 +1,43 @@
+import java.util.* ;
+import java.io.*; 
+/*************************************************************
+
+Following is the class structure of the Node class:
+
+    class Node {
+		public int data;
+		public Node next;
+
+		Node(int data) {
+			this.data = data;
+			this.next = null;
+	  	}
+    }
+
+*************************************************************/
+
+public class Solution {
+	public static Node addNode(Node head) {
+		Node temp = head;
+		while (temp.next != null) {
+			temp = temp.next;
+		}
+		temp.data = temp.data + 1;
+		while (temp.data > 9) {
+			temp.data = 0;
+			if (temp == head) {
+				Node newNode = new Node(1);
+				newNode.next = head;
+				head = newNode;
+			} else {
+				Node prev = head;
+				while (prev.next != temp) {
+					prev = prev.next;
+				}
+				prev.data = prev.data + 1;
+				temp = prev;
+			}
+		}
+		return head;
+	}
+}
