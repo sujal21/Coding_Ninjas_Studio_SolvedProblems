@@ -1,0 +1,109 @@
+/****************************************************************
+
+ Following is the class structure of the Node class:
+
+ static class Node
+ {
+     int data;
+     Node next;
+     Node()
+     {
+         this.data = 0;
+         this.next = null;
+     }
+     Node(int data)
+     {
+         this.data = data;
+         this.next = null;
+     }
+     Node(int data, Node next)
+     {
+         this.data = data;
+         this.next = next;
+     }
+ };
+
+
+ *****************************************************************/
+public class Solution {
+    static class Stack {
+        //Write your code here
+        Node head=new Node();
+        
+
+        Stack()
+        {
+            //Write your code here
+            Node newn=new Node();
+            head=null;
+
+        }
+
+        int getSize()
+        {
+            //Write your code here
+            int count=0;
+            Node temp=head;
+            while(temp!=null){
+                count++;
+                temp=temp.next;
+            }
+            return count;
+
+        }
+
+        boolean isEmpty()
+        {
+            //Write your code here
+            if(getSize()==0){
+                return true;
+            }
+            return false;
+        }
+
+        void push(int data){
+             Node newn = new Node(data);
+             if (head == null) {
+                 head = newn;
+            } else {
+                Node temp = head;
+                while (temp.next != null) {
+                    temp = temp.next;
+                }
+                temp.next = newn;
+            }
+        }
+
+
+        void pop()
+        {
+            //Write your code here
+            if (head == null) {
+                return;
+            } else if (head.next == null) {
+                head = null;
+            } else {
+                Node temp = head;
+                while(temp.next.next != null){
+                    temp = temp.next;
+                }
+                temp.next = null;
+            }
+        
+        }
+
+        int getTop()
+        {
+            //Write your code here
+             if (head == null) {
+                 return -1;
+            } else {
+                Node temp = head;
+                while(temp.next != null){
+                    temp = temp.next;
+                }
+            return temp.data;
+            }
+        }
+    }
+}
