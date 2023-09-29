@@ -1,0 +1,39 @@
+import java.util.*;
+public class Solution {
+    public static void uniqSub(String s,String ans,ArrayList<String> list) {
+		if(s.length()==0) {
+			list.add(ans);
+			return;
+		}
+		String ans1=ans;
+		String ans2=ans+s.charAt(0);
+		uniqSub(s.substring(1),ans1,list);
+		uniqSub(s.substring(1),ans2,list);
+	}
+    public static int calc(String s){
+        int count=0;
+		ArrayList<String> list=new ArrayList<>();
+		HashSet<String> map=new HashSet<>();
+		uniqSub(s,"",list);
+		String[] arr=list.toArray(new String[0]);
+		for(int i=0;i<arr.length;i++) {
+			map.add(arr[i]);
+		}
+		Iterator<String> it=map.iterator();
+		while(it.hasNext()) {
+			count++;
+            it.next();
+		}
+        return count;
+    }
+    public static String moreSubsequence(int n, int m, String a, String b) {
+        // Write your code here
+        int c1=calc(a);
+        int c2=calc(b);
+        if(c1>c2){
+            return a;
+        }else{
+            return b;
+        }
+    }
+}
