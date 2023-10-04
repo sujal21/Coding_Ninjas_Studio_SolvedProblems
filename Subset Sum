@@ -1,0 +1,20 @@
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static void solve(int idx, int[] nums, int op, ArrayList<Integer> lt){
+        if(idx == nums.length){
+            lt.add(op);
+            return;
+        }
+        solve(idx + 1, nums, op, lt);
+        int op1 = op + nums[idx];
+        solve(idx + 1, nums, op1, lt);
+    }
+    public static ArrayList<Integer> subsetSum(int num[]) {
+        // Write your code here..
+        ArrayList<Integer> lt = new ArrayList<>();
+        solve(0, num, 0, lt);
+        Collections.sort(lt);
+        return lt;
+    }
+}
