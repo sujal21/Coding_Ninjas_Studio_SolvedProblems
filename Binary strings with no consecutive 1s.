@@ -1,0 +1,25 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class Solution {
+    public static void solve(int n, int ip, String op, List<String> lt, boolean lastDigitOne){
+        if(ip==0){
+            lt.add(op);
+            return;
+        }
+        String op1 = op + "0";
+        solve(n, ip-1, op1, lt, false);
+        
+        if(!lastDigitOne){
+            String op2 = op + "1";
+            solve(n, ip-1, op2, lt, true);
+        }
+    }
+    public static List< String > generateString(int N) {
+        // Write your code here.
+        List<String> lt=new ArrayList<>();
+        int ip=N;
+        solve(N,ip,"",lt,false);
+        return lt;
+    }
+}
