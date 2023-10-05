@@ -1,0 +1,52 @@
+import java.util.*;
+
+public class Solution {
+  private static int getPrecedence(char c) {
+        switch (c) {
+            case '+':
+            case '-':
+                return 1;
+            case '*':
+            case '/':
+            case '%':
+                return 2;
+            case '^':
+                return 3;
+        }
+        return -1;
+    }
+
+    // Convert infix expression to postfix notation
+    public static String infixToPostfix(String exp) {
+        StringBuilder ans = new StringBuilder();
+        Stack<Character> st = new Stack<>();
+
+        for (char c : exp.toCharArray()) {
+            if (Character.isLetterOrDigit(c)) {
+                ans.append(c);
+            } else if (c == '(') {
+                st.push(c);
+            } else if (c == ')') {
+                while (!st.isEmpty() && st.peek() != '(') {
+                    ans.append(st.pop());
+                }
+                st.pop(); 
+            } else {
+                while (!st.isEmpty() && getPrecedence(c) <= getPrecedence(st.peek())) {
+                    ans.append(st.pop());
+                }
+                st.push(c);
+            }
+        }
+
+        // Pop any remaining operators from the stack
+        while (!st.isEmpty()) {
+            if (st.peek() == '(') {
+                return "Invalid Expression"; // Unmatched '('
+            }
+            ans.append(st.pop());
+        }
+
+        return ans.toString();
+    }
+}
