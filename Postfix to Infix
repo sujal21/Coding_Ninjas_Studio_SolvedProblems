@@ -1,0 +1,20 @@
+import java.util.*;
+
+public class Solution {
+    public static String postToInfix(String postfix) {
+        Stack<String> st = new Stack<>();
+        for (int i = 0; i < postfix.length(); i++) {
+            char c = postfix.charAt(i);
+            if (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z') {
+                String p = Character.toString(c);
+                st.push(p);
+            } else {
+                String sec = st.pop();
+                String fir = st.pop();
+                String ans = "(" + fir + c + sec + ")";
+                st.push(ans);
+            }
+        }
+        return st.pop();
+    }
+}
