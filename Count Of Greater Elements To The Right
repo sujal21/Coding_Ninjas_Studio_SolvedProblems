@@ -1,0 +1,23 @@
+import java.util.*;
+public class Solution {
+    public static int[] countGreater(int []arr, int []query) {
+        ArrayList<Integer> lt = new ArrayList<>();
+        for (int i = 0; i < query.length; i++) {
+            if (query[i] >= 0 && query[i] < arr.length) { 
+                int count = 0;
+                int check = arr[query[i]];
+                for (int k = query[i] + 1; k < arr.length; k++) {
+                    if (arr[k] > check) {
+                        count++;
+                    }
+                }
+                lt.add(count);
+            }
+        }
+        int[] ans = new int[lt.size()];
+        for (int i = 0; i < lt.size(); i++) {
+            ans[i] = lt.get(i);
+        }
+        return ans;
+    }
+}
