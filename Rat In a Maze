@@ -1,0 +1,30 @@
+import java.util.*;
+public class Solution {
+    public static void solve(int i,int j,int[][] mat,List<String> ans,String addPath,int[][] vis,int[]di,int[] dj){
+        if(i==mat.length-1 && j==mat.length-1){
+            ans.add(addPath);
+            return;
+        }
+        String dir="DLRU";
+        for(int idx=0;idx<mat.length;idx++){
+            int nexti=i+di[idx];
+            int nextj=j+dj[idx];
+            if(nexti >=0 && nextj >=0 && nexti<mat.length && nextj<mat.length && vis[nexti][nextj]==0 && mat[nexti][nextj]==1){
+                vis[i][j]=1;
+                solve(nexti,nextj,mat,ans,addPath+dir.charAt(idx),vis,di,dj);
+                vis[i][j]=0;
+            }
+        }
+    }
+    public static List<String> ratMaze(int [][]mat) {
+        // Write your code here.
+        List<String> ans=new ArrayList<>();
+        int[][] vis=new int[mat.length][mat[0].length];
+        int[] di = {1, 0, 0, -1}; // Including diagonal movements
+        int[] dj = {0, -1, 1, 0};
+        if(mat[0][0]==1){
+            solve(0,0,mat,ans,"",vis,di,dj);
+        }
+        return ans;
+    }
+}
