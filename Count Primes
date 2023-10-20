@@ -1,0 +1,32 @@
+import java.util.*;
+
+public class Solution {
+    public static List<Integer> countPrimes(int n) {
+        List<Integer> lt = new ArrayList<>();
+        
+        // Start by dividing by 2, as long as it's divisible
+        while (n % 2 == 0) {
+            if(lt.contains(2)==false){
+                lt.add(2);
+            }
+            n /= 2;
+        }
+        
+        // Check for other prime factors starting from 3
+        for (int i = 3; i * i <= n; i += 2) {
+            while (n % i == 0) {
+                if(lt.contains(i)==false){
+                    lt.add(i);
+                }
+                n /= i;
+            }
+        }
+        
+        // If n is still greater than 1, it's a prime factor
+        if (n > 1) {
+            lt.add(n);
+        }
+        
+        return lt;
+    }
+}
