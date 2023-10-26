@@ -1,0 +1,28 @@
+import java.util.*;
+public class Solution {
+    public static int findMaxFruits(int[] arr, int n) {
+        int l = 0, r = 0, ans = 0, count = 0;
+        Map<Integer, Integer> fruitCount = new HashMap<>();
+
+        while (r < n) {
+            int currentFruit = arr[r];
+            fruitCount.put(currentFruit, fruitCount.getOrDefault(currentFruit, 0) + 1);
+            count++;
+
+            while (fruitCount.size() > 2) {
+                int leftFruit = arr[l];
+                fruitCount.put(leftFruit, fruitCount.get(leftFruit) - 1);
+                if (fruitCount.get(leftFruit) == 0) {
+                    fruitCount.remove(leftFruit);
+                }
+                count--;
+                l++;
+            }
+
+            ans = Math.max(ans, r - l + 1);
+            r++;
+        }
+
+        return ans;
+    }
+}
