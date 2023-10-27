@@ -30,3 +30,29 @@ public class Solution {
         return lt;
     }
 }
+
+---------------------------second solution --------------------------
+
+import java.util.*;
+
+public class Solution {
+    public static List< Integer > countPrimes(int n) {
+        // Write your code here.
+        ArrayList<Integer> lt=new ArrayList<>();
+        boolean[] cp=new boolean[n];
+        for(int i=2;i*i<=n;i++){
+            if(cp[i]==false){
+                for(int j=i*i;j<n;j=j+i){
+                    cp[j]=true;
+                }
+            }
+        }
+        for(int i=2;i<n;i++){
+            if(cp[i]==false && n%i==0){
+                lt.add(i);
+            }
+        }
+        return lt;
+    }
+}
+
