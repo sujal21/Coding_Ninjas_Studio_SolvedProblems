@@ -1,0 +1,17 @@
+import java.util.*;
+public class Solution{
+    public static List< Integer > printDivisors(int n) {
+        // Write your code here
+        List<Integer> lt=new ArrayList<>();
+        for(int i=1;i*i<=n;i++){
+            if(n%i==0){
+                lt.add(i);
+                if((n/i)!=i){
+                    lt.add(n/i);
+                }
+            }
+        }
+        Collections.sort(lt);
+        return lt;
+    }
+}
