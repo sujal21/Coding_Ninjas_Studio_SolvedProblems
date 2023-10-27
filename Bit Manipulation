@@ -1,0 +1,23 @@
+public class Solution {
+    public static int[] bitManipulation(int num, int i) {
+        int[] ans = new int[3];
+
+        // Initialize values to 0
+        ans[0] = 0;
+        ans[1] = 0;
+        ans[2] = 0;
+
+        int mask = 1 << (i - 1);  // Create a mask with the bit at position i set to 1
+
+        // Check if the i-th bit is set (1) or not (0) in num
+        ans[0] = (num & mask) != 0 ? 1 : 0;
+
+        // Toggle the i-th bit (if it's set, unset it; if it's unset, set it)
+        ans[1] = num ^ mask;
+
+        // Toggle the i-th bit to the opposite of ans[0]
+        ans[2] = num ^ (ans[0] == 1 ? mask : 0);
+
+        return ans;
+    }
+}
