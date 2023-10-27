@@ -1,0 +1,34 @@
+public class Solution {
+    public static int[] twoOddNum(int []arr){
+        // Write your code here.
+        int val=0;
+        for(int i=0;i<arr.length;i++){
+            val=val^arr[i];
+        }
+        int setBit=0;
+        for(int i=0;i<32;i++){
+            int curr=1<<i;
+            if((val&curr)!=0){
+                setBit=curr;
+                break;
+            }
+        }
+        int first=0,second=0;
+        for(int i=0;i<arr.length;i++){
+            if((arr[i]&setBit)!=0){
+                first=first^arr[i];
+            }else{
+                second=second^arr[i];
+            }
+        }
+        int[] ans=new int[2];
+        if(first>second){
+            ans[0]=first;
+            ans[1]=second;
+        }else{
+            ans[0]=second;
+            ans[1]=first;
+        }
+        return ans;
+    }
+}
