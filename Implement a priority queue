@@ -1,0 +1,62 @@
+import java.util.List;
+public class Solution {
+    public static int pop(List<Integer> heap) {
+        // Write you code here.
+ if (heap.isEmpty()) {
+            return -1; // Heap is empty, return an error value (-1).
+        }
+
+        int temp = heap.get(0); // Store the root value to be returned.
+        heap.set(0, heap.get(heap.size() - 1)); // Set root to the last element.
+        heap.remove(heap.size() - 1); // Remove the last element.
+
+        int parentidx = 0;
+
+        while (true) {
+            int leftc = 2 * parentidx + 1;
+            int rightc = 2 * parentidx + 2;
+            int maxidx = parentidx;
+
+            if (leftc < heap.size() && heap.get(leftc) > heap.get(maxidx)) {
+                maxidx = leftc;
+            }
+            if (rightc < heap.size() && heap.get(rightc) > heap.get(maxidx)) {
+                maxidx = rightc;
+            }
+
+            if (maxidx == parentidx) {
+                break;
+            } else {
+                int t = heap.get(maxidx);
+                heap.set(maxidx, heap.get(parentidx));
+                heap.set(parentidx, t);
+
+                parentidx = maxidx;
+            }
+        }
+        return temp;
+    }
+
+    // Code Snippet of the push function:
+    // public static void push(List<Integer> heap, int x) {
+    //         heap.add(x);
+    //
+    //         // Position of the current inserted element.
+    //         int pos = heap.size() - 1;
+    //
+    //         // Shifting the element up until it reaches the topmost node if it is larger than its parent.
+    //         while (pos > 0) {
+    //             int parent = (pos - 1) / 2;
+    //             if (heap.get(pos) > heap.get(parent)) {
+    //                 // Swapping the elements.
+    //                 int temp = heap.get(parent);
+    //                 heap.set(parent, heap.get(pos));
+    //                 heap.set(pos, temp);
+    //                 pos = parent;
+    //             } else {
+    //                 // As parent is larger, the element is now in its correct position.
+    //                 break;
+    //             }
+    //         }
+    //     }
+}
