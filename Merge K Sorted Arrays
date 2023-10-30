@@ -1,0 +1,50 @@
+import java.util.* ;
+import java.io.*; 
+import java.util.ArrayList;
+
+public class Solution 
+{
+	public static void minHeapify(ArrayList<Integer> lt,int n,int i){
+		int smallest=i;
+		int left=2*i+1;
+		int right=2*i+2;
+
+		if(left<n && lt.get(left)>lt.get(smallest)){
+			smallest=left;
+		}
+
+		if(right<n && lt.get(right)>lt.get(smallest)){
+			smallest=right;
+		}
+
+		if(smallest!=i){
+			int temp=lt.get(i);
+			lt.set(i,lt.get(smallest));
+			lt.set(smallest,temp);
+			minHeapify(lt, n, smallest);
+		}
+	}
+	public static ArrayList<Integer> mergeKSortedArrays(ArrayList<ArrayList<Integer>> kArrays, int k)
+	{
+		// Write your code here.
+		ArrayList<Integer> lt=new ArrayList<>();
+		for (List<Integer> list : kArrays) {
+            for (Integer num : list) {
+                lt.add(num);
+            }
+        }
+		int n=lt.size();
+		for(int i=n/2-1;i>=0;i--){
+			minHeapify(lt,n,i);
+		}
+
+		for (int i = n - 1; i > 0; i--) {
+			int temp = lt.get(0);
+			lt.set(0, lt.get(i));
+			lt.set(i, temp);
+			minHeapify(lt, i, 0);
+		}
+		
+		return lt;
+	}
+}
