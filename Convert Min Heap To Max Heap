@@ -1,0 +1,29 @@
+public class Solution {
+    public static void maxHeapify(int n,int i,int[] arr){
+        int largest=i;
+        int left=2*i+1;
+        int right=2*i+2;
+
+        if(left<n && arr[left]>arr[largest]){
+            largest=left;
+        }
+
+        if(right<n && arr[right]>arr[largest]){
+            largest=right;
+        }
+
+        if(largest!=i){
+            int temp=arr[i];
+            arr[i]=arr[largest];
+            arr[largest]=temp;
+            maxHeapify(n, largest, arr);
+        }
+    }
+    public static int[] MinToMaxHeap(int n, int[] arr){
+        // Write your code here
+        for(int i=(n/2)-1;i>=0;i--){
+            maxHeapify(n,i,arr);
+        }
+        return arr;
+    }
+}
