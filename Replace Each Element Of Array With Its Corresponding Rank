@@ -1,0 +1,30 @@
+import java.util.*;
+
+public class Solution {
+    public static List<Integer> replaceWithRank(List<Integer> arr,int n) {
+        // Create a copy of the original array to maintain the original indices
+        ArrayList<Integer> sortedArray = new ArrayList<>(arr);
+
+        // Sort the list to determine ranks
+        Collections.sort(sortedArray);
+
+        // Use LinkedHashMap to maintain the insertion order
+        LinkedHashMap<Integer, Integer> rankMap = new LinkedHashMap<>();
+        int rank = 1;
+
+        for (int num : sortedArray) {
+            if (!rankMap.containsKey(num)) {
+                rankMap.put(num, rank);
+                rank++;
+            }
+        }
+
+        // Replace elements with their corresponding rank
+        ArrayList<Integer> result = new ArrayList<>();
+        for (int i = 0; i < arr.size(); i++) {
+            result.add(rankMap.get(arr.get(i)));
+        }
+
+        return result;
+    }
+}
