@@ -1,0 +1,66 @@
+/*********************************************************
+
+ Following is the TreeNode structure:
+
+ class TreeNode {
+     int data;
+     TreeNode left;
+     TreeNode right;
+     TreeNode() {
+         this.data = 0;
+         this.left = null;
+         this.right = null;
+     }
+     TreeNode(int data) {
+         this.data = data;
+         this.left = null;
+         this.right = null;
+     }
+     TreeNode(int data, TreeNode left, TreeNode right) {
+         this.data = data;
+         this.left = left;
+         this.right = right;
+     }
+ };
+ ********************************************************/
+
+import java.util.*;
+public class Solution {
+    public static List<Integer> inorder(TreeNode root,List<Integer> lt){
+        if(root==null){
+            return lt;
+        }
+        lt=inorder(root.left,lt);
+        lt.add(root.data);
+        lt=inorder(root.right,lt);
+        return lt;
+    }
+    public static List<Integer> preorder(TreeNode root,List<Integer> lt){
+        if(root==null){
+            return lt;
+        }
+        lt.add(root.data);
+        lt=preorder(root.left,lt);        
+        lt=preorder(root.right,lt);
+        return lt;
+    }
+
+    public static List<Integer> postorder(TreeNode root,List<Integer> lt){
+        if(root==null){
+            return lt;
+        }
+        lt=postorder(root.left,lt);
+        lt=postorder(root.right,lt);
+        lt.add(root.data);
+        return lt;
+    }
+
+    public static List<List<Integer>> getTreeTraversal(TreeNode root) {
+        // Write your code here.
+        List<List<Integer>> ans=new ArrayList<>();
+        ans.add(inorder(root,new ArrayList<>()));
+        ans.add(preorder(root,new ArrayList<>()));
+        ans.add(postorder(root,new ArrayList<>()));
+        return ans;
+    }
+}
