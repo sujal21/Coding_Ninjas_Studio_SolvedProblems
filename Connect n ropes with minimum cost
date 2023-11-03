@@ -1,0 +1,26 @@
+import java.util.Scanner;
+
+import java.util.PriorityQueue;
+
+public class solution {
+    static int minCost(int arr[], int n) {
+        /*
+         * Your class should be named Solution.Don't write main().Don't take
+         * input, it is passed as function argument.Don't print output.Taking
+         * input and printing output is handled automatically.
+         */
+         PriorityQueue<Integer> pq=new PriorityQueue<>();
+         for(int i:arr){
+             pq.offer(i);
+         }
+         int minCost=0;
+         while(pq.size()>1){
+             int sum=pq.poll();
+             sum=sum+pq.poll();
+             minCost=minCost+sum;
+             pq.offer(sum);
+         }
+         return minCost;
+
+    }
+}
