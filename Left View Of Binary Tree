@@ -1,0 +1,47 @@
+import java.util.*;
+
+public class Solution {
+
+    public static void printLeftView(TreeNode<Integer> root) {
+
+        // Write your code here.
+
+ 
+
+        Queue<TreeNode<Integer>> q = new LinkedList<>();
+
+        q.add(root);
+
+        while(q.size()>0){
+
+            int sizeofq=q.size();
+
+            for(int i =1; i<=sizeofq; i++){
+
+                root = q.remove();
+
+                if(i==1){
+
+                    System.out.print(root.data+" ");
+
+                }
+
+                if(root.left!=null){
+
+                    q.add(root.left);
+
+                }
+
+                if(root.right!=null){
+
+                    q.add(root.right);
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
