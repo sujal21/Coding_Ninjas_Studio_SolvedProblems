@@ -1,0 +1,27 @@
+import java.util.*;
+
+public class solution {
+	public static int Floor(BinaryTreeNode<Integer> node, int input) {
+		/*Your class should be named Solution. 
+		*Don't write main().
+		*Don't take input, it is passed as function argument.
+		*Don't print output.
+		*Taking input and printing output is handled automatically.
+	*/ 
+		int ans=-1;
+
+		while(node!=null){
+			if(node.data==input){
+				return node.data;
+			}
+			else if(node.data>input){
+				node=node.left;
+			}else{
+				ans=node.data;
+				node=node.right;
+			}
+		}
+		return ans;
+	}
+
+}
