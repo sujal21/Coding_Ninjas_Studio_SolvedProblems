@@ -1,0 +1,26 @@
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static int energy(int n,int[] heights,int[] dp){
+        if(n==0){
+            return 0;
+        }
+        if(dp[n]!=-1){
+            return dp[n];
+        }
+        int right=Integer.MAX_VALUE;
+        int left=energy(n-1,heights,dp)+Math.abs(heights[n]-heights[n-1]);
+        if(n>1){
+            right=energy(n-2,heights,dp)+Math.abs(heights[n]-heights[n-2]);
+        }
+        return dp[n]=Math.min(left,right);
+    }
+    public static int frogJump(int n, int heights[]) {
+
+        // Write your code here..
+        int[] dp=new int[n+1];
+        Arrays.fill(dp,-1);
+        return energy(n-1,heights,dp);
+    }
+
+}
