@@ -1,0 +1,62 @@
+/*********************************************************
+ Following is the TreeNode structure:
+
+ class TreeNode {
+     int data;
+     TreeNode left;
+     TreeNode right;
+     TreeNode() {
+         this.data = 0;
+         this.left = null;
+         this.right = null;
+     }
+     TreeNode(int data) {
+         this.data = data;
+         this.left = null;
+         this.right = null;
+     }
+     TreeNode(int data, TreeNode left, TreeNode right) {
+         this.data = data;
+         this.left = left;
+         this.right = right;
+     }
+ };
+ ********************************************************/
+
+class TreeNodeInfo {
+    int minNode;
+    int maxNode;
+    int maxSize;
+
+    TreeNodeInfo(int minNode, int maxNode, int maxSize) {
+        this.minNode = minNode;
+        this.maxNode = maxNode;
+        this.maxSize = maxSize;
+    }
+}
+
+public class Solution {
+
+   public static TreeNodeInfo checkSize(TreeNode root) {
+    if (root == null) {
+        return new TreeNodeInfo(Integer.MAX_VALUE, Integer.MIN_VALUE, 0);
+    }
+
+    TreeNodeInfo left = checkSize(root.left);
+    TreeNodeInfo right = checkSize(root.right);
+
+    if (left.maxNode < root.data && root.data < right.minNode) {
+        return new TreeNodeInfo(
+            Math.min(root.data, left.minNode),
+            Math.max(root.data, right.maxNode),
+            left.maxSize + right.maxSize + 1
+        );
+    }
+    return new TreeNodeInfo(Integer.MIN_VALUE, Integer.MAX_VALUE, Math.max(left.maxSize, right.maxSize));
+}
+
+    public static int largestBST(TreeNode root) {
+        // Write your code here.
+        return checkSize(root).maxSize;
+    }
+}
