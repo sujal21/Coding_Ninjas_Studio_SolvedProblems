@@ -1,0 +1,45 @@
+import java.util.*;
+
+public class Solution {
+
+    static void solve(BinaryTreeNode root,String currpath,ArrayList<String>path){
+
+        if(root == null) return;
+
+        if(currpath.isEmpty()){
+
+            currpath+=root.data;
+
+        }
+
+        else{
+
+            currpath+=" "+root.data;
+
+        }
+
+        if(root.left == null && root.right == null){
+
+            path.add(currpath);
+
+            return;
+
+        }
+
+        solve(root.left,currpath,path);
+
+        solve(root.right,currpath,path);
+
+    }
+
+    public static ArrayList<String> allRootToLeaf(BinaryTreeNode root) {
+
+        ArrayList<String> path=new ArrayList<>();
+
+        solve(root,"",path);
+
+        return path;          
+
+    }
+
+}
