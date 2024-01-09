@@ -1,0 +1,66 @@
+import java.util.*;
+
+public class Solution {
+    // Utility function to add parent information to the hashmap
+    private static BinaryTreeNode<Integer> s = null;
+
+    private static void addParent(BinaryTreeNode<Integer> root, HashMap<BinaryTreeNode<Integer>, BinaryTreeNode<Integer>> parentMap, BinaryTreeNode<Integer> parent, int start) {
+        if (root == null) {
+            return;
+        }
+        parentMap.put(root, parent);
+        if (root.data == start) {
+            s = root;
+        }
+        addParent(root.left, parentMap, root, start);
+        addParent(root.right, parentMap, root, start);
+    }
+
+    // Function to calculate the time to burn the tree
+    public static int timeToBurnTree(BinaryTreeNode<Integer> root, int start) {
+        // Handling base case
+        if (root == null) {
+            return 0;
+        }
+
+        // Initialize hashmap for parent information
+        HashMap<BinaryTreeNode<Integer>, BinaryTreeNode<Integer>> parentMap = new HashMap<>();
+        addParent(root, parentMap, null, start);
+
+        // Initialize queue for level order traversal
+        Queue<BinaryTreeNode<Integer>> queue = new LinkedList<>();
+        // Initialize set to keep track of visited nodes
+        HashSet<Integer> visited = new HashSet<>();
+        visited.add(s.data);
+        queue.add(s);
+
+        int time = 0;
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            for (int i = 0; i < levelSize; i++) {
+                BinaryTreeNode<Integer> currentNode = queue.poll();
+
+                // Enqueue left child
+                if (currentNode.left != null && !visited.contains(currentNode.left.data)) {
+                    queue.add(currentNode.left);
+                    visited.add(currentNode.left.data);
+                }
+
+                // Enqueue right child
+                if (currentNode.right != null && !visited.contains(currentNode.right.data)) {
+                    queue.add(currentNode.right);
+                    visited.add(currentNode.right.data);
+                }
+
+                // Enqueue parent
+                if (parentMap.get(currentNode) != null && !visited.contains(parentMap.get(currentNode).data)) {
+                    queue.add(parentMap.get(currentNode));
+                    visited.add(parentMap.get(currentNode).data);
+                }
+            }
+            time++;
+        }
+        // Return time - 1 as the last level does not require additional time
+        return time - 1;
+    }
+}
