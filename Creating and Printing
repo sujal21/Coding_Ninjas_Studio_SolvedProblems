@@ -1,0 +1,28 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class Solution {
+    public static int[][] printAdjacency(int n, int m, int[][] edges) {
+        List<List<Integer>> adjacencyList = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            List<Integer> neighbors = new ArrayList<>();
+            neighbors.add(i); // Include the node number in the adjacency list
+            adjacencyList.add(neighbors);
+        }
+        for (int i = 0; i < m; i++) {
+            int u = edges[i][0];
+            int v = edges[i][1];
+            adjacencyList.get(u).add(v);
+            adjacencyList.get(v).add(u);
+        }
+
+        int[][] adjacencyArray = new int[n][];
+        for (int i = 0; i < n; i++) {
+            adjacencyArray[i] = new int[adjacencyList.get(i).size()];
+            for (int j = 0; j < adjacencyList.get(i).size(); j++) {
+                adjacencyArray[i][j] = adjacencyList.get(i).get(j);
+            }
+        }
+        return adjacencyArray;
+    }
+}
