@@ -1,0 +1,81 @@
+import java.util.ArrayList;
+
+public class Solution {
+
+  public static boolean detectCycleInDirectedGraph(int n, ArrayList < ArrayList < Integer >> edges) {
+
+    int[] visited = new int[n+1];
+
+    ArrayList<ArrayList<Integer>> listAdjacency = new ArrayList<>();
+
+    for (int i=0; i<=n; i++){
+
+      listAdjacency.add(new ArrayList<>());
+
+    } 
+
+    for (int i=0; i<edges.size(); i++){
+
+      int startNode = edges.get(i).get(0);
+
+      int endNode = edges.get(i).get(1);
+
+      listAdjacency.get(startNode).add(endNode);
+
+    }
+
+    for (int i=1; i<visited.length; i++){
+
+      if (visited[i] == 0){ // Represents Unvisited.
+
+        boolean blnResult = dfs(visited, listAdjacency, i);
+
+        if (blnResult){
+
+          return true;
+
+        }
+
+      }
+
+    }
+
+    return false;
+
+  }
+
+  public static boolean dfs (int[] visited, ArrayList<ArrayList<Integer>> listAdjacency, int node){
+
+    visited[node] = 1; // Represents In Progress.
+
+    for (Integer neightBourNode : listAdjacency.get(node)){
+
+      if (visited[neightBourNode] == 1){
+
+        return true;
+
+      }
+
+      if (visited[neightBourNode] == 2){
+
+        continue;
+
+      }
+
+      boolean blnResult = dfs(visited, listAdjacency, neightBourNode);
+
+      if (blnResult){
+
+        return true;
+
+      }
+
+    }
+
+    visited[node] = 2; // Represents Completion of a path from node.
+
+    return false;
+
+  }
+
+}
