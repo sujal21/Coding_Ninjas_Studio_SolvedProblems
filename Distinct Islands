@@ -1,0 +1,36 @@
+import java.util.*;
+public class Solution {
+    private static String toString(int r,int c){
+        return Integer.toString(r)+" "+Integer.toString(c);
+    }
+    public static void dfs(int r, int c, int[][] vis, int[][] arr, ArrayList<String> list, int brow, int bcol) {
+        vis[r][c] = 1;
+        list.add(toString(r-brow,c-bcol));
+
+        int[] rows = {-1, 0, +1, 0};
+        int[] cols = {0, +1, 0, -1};
+        for (int i = 0; i < 4; i++) {
+            int nrow = r + rows[i];
+            int ncol = c + cols[i];
+            if (nrow < arr.length && nrow >= 0 && ncol < arr[0].length && ncol >= 0 && vis[nrow][ncol] == 0 && arr[nrow][ncol] == 1) {
+                dfs(nrow, ncol, vis, arr, list, brow, bcol);
+            }
+        }
+    }
+
+    public static int distinctIsland(int[][] arr, int n, int m) {
+        int[][] vis = new int[n][m];
+        HashSet<ArrayList<String>> set = new HashSet<>();
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (vis[i][j] == 0 && arr[i][j] == 1) {
+                    ArrayList<String> list = new ArrayList<>();
+                    dfs(i, j, vis, arr, list, i, j);
+                    set.add(list);
+                }
+            }
+        }
+        return set.size();
+    }
+}
