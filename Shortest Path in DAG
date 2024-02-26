@@ -1,0 +1,74 @@
+import java.util.*;
+
+class Pair{
+    int next;
+    int wt;
+
+    Pair(int next,int wt){
+        this.next=next;
+        this.wt=wt;
+    }
+}
+public class Solution {
+    public static void topoSort(int node,int[] vis,ArrayList<ArrayList<Pair>> adj,Stack<Integer> st){
+        vis[node]=1;
+
+        for(Pair it:adj.get(node)){
+            if(vis[it.next]==0){
+                topoSort(it.next, vis, adj, st);
+            }
+        }
+        st.push(node);
+    }
+    public static int[] shortestPathInDAG(int n, int m, int [][]edges) {
+        // Write your code here
+        ArrayList<ArrayList<Pair>> adj=new ArrayList<>();
+        for(int i=0;i<n;i++){
+            adj.add(new ArrayList<>());
+        }
+        
+
+        for(int i=0;i<m;i++){
+            int from=edges[i][0];
+            int to=edges[i][1];
+            int wt=edges[i][2];
+
+            adj.get(from).add(new Pair(to,wt));
+        }
+
+        Stack<Integer> st=new Stack<>();
+        int[] vis=new int[n];
+        for(int i=0;i<n;i++){
+            if(vis[i]==0){
+                topoSort(i,vis,adj,st);
+            }
+        }
+
+        int[] ans=new int[n];
+        for(int i=0;i<n;i++){
+            ans[i]=(int)1e9;
+        }
+
+        ans[0]=0;
+        while(!st.isEmpty()){
+            int node=st.pop();
+
+            for(Pair it:adj.get(node)){
+                int nextNode=it.next;
+                int weight=it.wt;
+
+                if(ans[node]+weight<ans[nextNode]){
+                    ans[nextNode]=ans[node]+weight;
+                }
+            }
+        }
+
+        for(int i=0;i<n;i++){
+            if(ans[i]==(int)1e9){
+                ans[i]=-1;
+            }
+        }
+
+        return ans;
+    }
+}
