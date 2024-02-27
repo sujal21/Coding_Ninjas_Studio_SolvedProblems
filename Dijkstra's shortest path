@@ -1,0 +1,57 @@
+import java.util.*;
+
+class Pair implements Comparable<Pair> {
+    int data;
+    int wt;
+
+    Pair(int data, int wt) {
+        this.data = data;
+        this.wt = wt;
+    }
+
+    @Override
+    public int compareTo(Pair other) {
+        return Integer.compare(this.wt, other.wt);
+    }
+}
+
+public class Solution {
+    public static List<Integer> dijkstra(int[][] edge, int vertices, int edges, int source) {
+        ArrayList<ArrayList<Pair>> adj = new ArrayList<>();
+        for (int i = 0; i < vertices; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        for (int i = 0; i < edges; i++) {
+            int u = edge[i][0];
+            int v = edge[i][1];
+            int wt = edge[i][2];
+
+            adj.get(u).add(new Pair(v, wt));
+            adj.get(v).add(new Pair(u, wt));
+        }
+
+        int[] dist = new int[vertices];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[source] = 0;
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        pq.add(new Pair(source, 0));
+
+        while (!pq.isEmpty()) {
+            int node = pq.poll().data;
+
+            for (Pair it : adj.get(node)) {
+                if (dist[node] != Integer.MAX_VALUE && dist[node] + it.wt < dist[it.data]) {
+                    dist[it.data] = dist[node] + it.wt;
+                    pq.add(new Pair(it.data, dist[it.data]));
+                }
+            }
+        }
+
+        List<Integer> ans = new ArrayList<>();
+        for (int i = 0; i < vertices; i++) {
+            ans.add(dist[i]);
+        }
+        return ans;
+    }
+}
