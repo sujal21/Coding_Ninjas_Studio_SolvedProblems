@@ -1,0 +1,45 @@
+import java.util.*;
+
+class Pair {
+    int first;
+    int second;
+
+    Pair(int first, int second) {
+        this.first = first;
+        this.second = second;
+    }
+}
+
+public class Solution {
+    public static int minimumOperations(int n, int start, int end, int[] a) {
+        if(start==end){
+            return 0;
+        }
+        Queue<Pair> q = new LinkedList<>();
+        q.add(new Pair(start, 0));
+
+        int[] dist = new int[1000];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[start] = 0;
+
+        int mod = 1000;
+
+        while (!q.isEmpty()) {
+            Pair p = q.poll();
+            int node = p.first;
+            int steps = p.second;
+
+            for (int i : a) {
+                int num = (i * node) % mod;
+                if (steps + 1 < dist[num]) {
+                    dist[num] = steps + 1;
+                    if (num == end) {
+                        return steps + 1;
+                    }
+                    q.add(new Pair(num, steps + 1));
+                }
+            }
+        }
+        return -1; 
+    }
+}
