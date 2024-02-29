@@ -1,0 +1,48 @@
+import java.util.*;
+class Pair{
+    int node;
+    int dist;
+    Pair(int node,int dist){
+        this.node=node;
+        this.dist=dist;
+    }
+}
+public class Solution {
+    public static int kruskalMST(int n,int [][]edges) {
+        //Write your code here
+        int sum=0;
+        PriorityQueue<Pair> pq=new PriorityQueue<Pair>((x,y)->x.dist-y.dist);
+        pq.add(new Pair(1,0));
+        int[] vis=new int[n+1];
+
+
+        while(!pq.isEmpty()){
+            Pair p=pq.poll();
+            int node=p.node;
+            int dist=p.dist;
+
+            if(vis[node]==1){
+                continue;
+            }
+
+            sum=sum+dist;
+            vis[node]=1;
+
+            for(int i=0;i<edges.length;i++){
+                int u=edges[i][0];
+                int v=edges[i][1];
+                int wt=edges[i][2];
+
+                if(u==node && vis[v]==0){
+                    pq.add(new Pair(v,wt));
+                }
+                if(v==node && vis[u]==0){
+                    pq.add(new Pair(u,wt));
+                }
+            }
+        }
+
+        return sum;
+
+    }
+}
