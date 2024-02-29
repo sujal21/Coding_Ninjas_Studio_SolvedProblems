@@ -1,0 +1,79 @@
+import java.util.*;
+
+public class Solution {
+
+    public static class DisjointIntervals {
+
+        List<List<Integer>> intervals;
+
+        public DisjointIntervals() {
+            intervals = new ArrayList<>();
+        }
+
+        public void addInteger(int val) {
+            if (intervals.isEmpty()) {
+                List<Integer> newInterval = new ArrayList<>();
+                newInterval.add(val);
+                newInterval.add(val);
+                intervals.add(newInterval);
+            } else {
+                // Check if the value can be merged with existing intervals
+                boolean merged = false;
+                for (List<Integer> interval : intervals) {
+                    if (val == interval.get(1) + 1) {
+                        interval.set(1, val);
+                        merged = true;
+                        break;
+                    } else if (val == interval.get(0) - 1) {
+                        interval.set(0, val);
+                        merged = true;
+                        break;
+                    } else if (val >= interval.get(0) && val <= interval.get(1)) {
+                        // Value is already within an existing interval
+                        merged = true;
+                        break;
+                    }
+                }
+
+                // If not merged, create a new interval
+                if (!merged) {
+                    List<Integer> newInterval = new ArrayList<>();
+                    newInterval.add(val);
+                    newInterval.add(val);
+                    intervals.add(newInterval);
+                }
+
+                // Merge overlapping intervals
+                mergeIntervals();
+            }
+        }
+
+        public List<List<Integer>> getDisjointIntervals() {
+            return intervals;
+        }
+
+        private void mergeIntervals() {
+            Collections.sort(intervals, Comparator.comparingInt(interval -> interval.get(0)));
+            List<List<Integer>> mergedIntervals = new ArrayList<>();
+            List<Integer> currentInterval = intervals.get(0);
+
+            for (int i = 1; i < intervals.size(); i++) {
+                List<Integer> nextInterval = intervals.get(i);
+
+                if (currentInterval.get(1) >= nextInterval.get(0) - 1) {
+                    // Merge overlapping intervals
+                    currentInterval.set(1, Math.max(currentInterval.get(1), nextInterval.get(1)));
+                } else {
+                    // Add the merged interval and update currentInterval
+                    mergedIntervals.add(currentInterval);
+                    currentInterval = nextInterval;
+                }
+            }
+
+            // Add the last interval
+            mergedIntervals.add(currentInterval);
+
+            intervals = mergedIntervals;
+        }
+    }
+}
