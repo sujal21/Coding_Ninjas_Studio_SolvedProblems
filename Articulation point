@@ -1,0 +1,92 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+    private static int timer = 1;
+
+    public static ArrayList<Integer> findArticulatePoint(int n, int m, int[][] edges) {
+        ArrayList<Integer> ans = new ArrayList<>();
+        ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+
+        for (int i = 0; i <= n; i++)
+            graph.add(new ArrayList<Integer>());
+
+        for (int i = 0; i < m; i++) {
+            int u = edges[i][0];
+            int v = edges[i][1];
+            graph.get(u).add(v);
+            graph.get(v).add(u);
+        }
+
+        int[] timin = new int[n + 1];
+        int[] low = new int[n + 1];
+        boolean[] mark = new boolean[n + 1];
+        boolean[] visited = new boolean[n + 1];
+
+        for (int i = 1; i <= n; i++) {
+            dfs(i, 0, graph, timin, low, visited, mark);
+        }
+
+        for (int i = 1; i <= n; i++) {
+            if (mark[i])
+                ans.add(i);
+        }
+
+        return ans;
+    }
+
+    public static void dfs(int node, int parent, ArrayList<ArrayList<Integer>> graph, int[] timin, int[] low,
+            boolean[] visited, boolean[] mark) {
+        visited[node] = true;
+        timin[node] = low[node] = timer;
+        timer++;
+
+        int child = 0;
+
+        for (int adj : graph.get(node)) {
+            if (adj == parent)
+                continue;
+
+            if (!visited[adj]) {
+                dfs(adj, node, graph, timin, low, visited, mark);
+                low[node] = Math.min(low[node], low[adj]);
+
+                if (low[adj] >= timin[node] && parent != 0)
+                    mark[node] = true;
+
+                child++;
+            } else
+                low[node] = Math.min(low[node], timin[adj]);
+        }
+
+        if (child > 1 && parent == 0)
+            mark[node] = true;
+    }
+
+    public static void main(String[] args) throws NumberFormatException, IOException {
+        Scanner sc = new Scanner(System.in);
+        int Test = Integer.parseInt(sc.nextLine());
+
+        for (int i = 0; i < Test; i++) {
+            String[] input = sc.nextLine().split(" ");
+            int n = Integer.parseInt(input[0]);
+            int m = Integer.parseInt(input[1]);
+            int[][] edges = new int[m][2];
+
+            for (int j = 0; j < m; j++) {
+                String[] in = sc.nextLine().split(" ");
+                edges[j][0] = Integer.parseInt(in[0]);
+                edges[j][1] = Integer.parseInt(in[1]);
+            }
+
+            ArrayList<Integer> res = findArticulatePoint(n, m, edges);
+            Collections.sort(res);
+
+            for (int it : res) {
+                System.out.print(it + " ");
+            }
+
+            System.out.println();
+        }
+    }
+}
