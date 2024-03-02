@@ -1,0 +1,36 @@
+public class Solution {
+    public static boolean isSafe(int node,int n,int[][] mat,int[] color,int col){
+        for(int i=0;i<n;i++){
+            if(i!=n && mat[i][node]==1 && color[i]==col){
+                return false;
+            }
+        }
+        return true;
+    }
+    public static boolean solve(int node,int n,int m,int[][] mat,int[] color){
+        if(node==n){
+            return true;
+        }
+        for(int i=1;i<=m;i++){
+            if(isSafe(node,n,mat,color,i)){
+                color[node]=i;
+                if(solve(node+1,n,m,mat,color)){
+                    return true;
+                }
+                color[node]=0;
+            }
+        }
+        return false;
+    }
+    public static String graphColoring(int [][]mat, int m) {
+        // Write your code here
+        int n=mat.length;
+        int[] color=new int[n];
+        boolean ans=solve(0,n,m,mat,color);
+        if(ans){
+            return "YES";
+        }else{
+            return "NO";
+        }
+    }
+}
