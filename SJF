@@ -1,0 +1,111 @@
+import java.util.*;
+
+public class Solution {
+
+    public static int minArrivalTime(int n,int arr[],int bt[]){
+
+        int min=Integer.MAX_VALUE;
+
+        int ith=-1;
+
+        int minbt=Integer.MAX_VALUE;
+
+        for(int i=0;i<n;i++){
+
+            if(arr[i]<min){
+
+                min=arr[i];
+
+                ith=i;
+
+                minbt=bt[i];
+
+            }
+
+            else if(arr[i]==min){
+
+                if(bt[i]<minbt){
+
+                    minbt=bt[i];
+
+                    ith=i;
+
+                }
+
+            }
+
+        }
+
+        return ith;
+
+    }
+
+    public static int minBurstTime(int n,int time,int arrivalTime[],int burstTime[],boolean hash[]){
+
+        int min=Integer.MAX_VALUE;
+
+        int ith=-1;
+
+        for(int i=0;i<n;i++){
+
+            if(!hash[i] && arrivalTime[i]<=time){
+
+                if(burstTime[i]<min){
+
+                    min=burstTime[i];
+
+                    ith=i;
+
+                }
+
+            }
+
+        }
+
+        return ith;
+
+    }
+
+    public static float sjf(int n, int []arrivalTime, int []burstTime)
+
+    {
+
+        // Write your code here.
+
+        int idx = minArrivalTime(n, arrivalTime,burstTime);
+
+        boolean hash[] = new boolean[n];
+
+        int waitingTime[] = new int[n];
+
+        int completionTime[] = new int[n];
+
+        completionTime[idx]=arrivalTime[idx]+burstTime[idx];
+
+        int time = completionTime[idx];
+
+        hash[idx]=true;
+
+        int sum=0;
+
+        for(int i=1;i<n;i++){
+
+            int id = minBurstTime(n,time,arrivalTime,burstTime,hash);
+
+            hash[id]=true;
+
+            completionTime[id]=time+burstTime[id];
+
+            waitingTime[id]=completionTime[id]-burstTime[id]-arrivalTime[id];
+
+            sum+=waitingTime[id];
+
+            time=completionTime[id];
+
+        }
+
+        return (float)sum/(float)n;
+
+    }
+
+}
