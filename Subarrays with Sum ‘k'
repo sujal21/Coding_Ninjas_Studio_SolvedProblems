@@ -1,0 +1,52 @@
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class Solution {
+    public static void solve(int[] v, int i, List<Integer> curr, List<List<Integer>> res, long sum, long k) {
+        if (i == v.length) {
+            while (sum > k && !curr.isEmpty()) {
+                sum -= curr.get(0);
+                curr.remove(0);
+            }
+            if (sum == k) {
+                res.add(new ArrayList<>(curr));
+            }
+            return;
+        }
+
+        if (sum == k) {
+            res.add(new ArrayList<>(curr));
+        }
+
+        if (sum > k) {
+            while (sum > k && !curr.isEmpty()) {
+                sum -= curr.get(0);
+                curr.remove(0);
+            }
+            if (sum == k) {
+                res.add(new ArrayList<>(curr));
+            }
+        }
+
+        curr.add(v[i]);
+        sum += v[i];
+        solve(v, i + 1, new ArrayList<>(curr), res, sum, k);
+    }
+
+    public static List<List<Integer>> subarraysWithSumK(int[] a, long k) {
+        List<Integer> temp = new ArrayList<>();
+        List<List<Integer>> res = new ArrayList<>();
+        solve(a, 0, temp, res, 0, k);
+        Collections.sort(res, (list1, list2) -> {
+            for (int i = 0; i < Math.min(list1.size(), list2.size()); i++) {
+                if (!list1.get(i).equals(list2.get(i))) {
+                    return Integer.compare(list1.get(i), list2.get(i));
+                }
+            }
+            return Integer.compare(list1.size(), list2.size());
+        });
+        return res;
+    }
+}
