@@ -1,0 +1,42 @@
+import java.util.Arrays;
+
+public class Solution {
+    
+    public static int aggressiveCows(int[] arr, int kCow) {
+        Arrays.sort(arr);
+
+        int max = arr[arr.length - 1];
+        int s = 0, e = max, mid = 0, ans = -1;
+
+        while (s <= e) {
+            mid = s + (e - s) / 2;
+
+            if (isPossibleStallOfCow(arr, kCow, mid)) {
+                ans = mid;
+                s = mid + 1;
+            } else {
+                e = mid - 1;
+            }
+        }
+
+        return ans;
+    }
+
+    private static boolean isPossibleStallOfCow(int[] arr, int kCow, int mid) {
+        int cowCount = 1;
+        int lastPostionOfCow = arr[0];
+
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] - lastPostionOfCow >= mid) {
+                cowCount++;
+
+                if (cowCount == kCow) {
+                    return true;
+                }
+
+                lastPostionOfCow = arr[i];
+            }
+        }
+        return false;
+    }
+}
