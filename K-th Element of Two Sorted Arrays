@@ -1,0 +1,43 @@
+import java.util.ArrayList;
+public class Solution {
+    public static int kthElement(ArrayList<Integer> arr1, ArrayList<Integer> arr2, int n, int m, int k) {
+        // Write your code here
+        int count=0;
+        int i=0;
+        int j=0;
+        int ele=-1;
+        
+        while(i<arr1.size() && j<arr2.size()){
+            if(arr1.get(i)<arr2.get(j)){
+                if(count==k-1){
+                    ele=arr1.get(i);
+                }
+                count++;
+                i++;
+            }else{
+                if(count==k-1){
+                    ele=arr2.get(j);
+                }
+                count++;
+                j++;
+            }
+        }
+
+        while(i<arr1.size()){
+            if(count==k-1){
+                ele=arr1.get(i);
+            }
+            count++;
+            i++;
+        }
+
+        while(j<arr2.size()){
+            if(count==k-1){
+                ele=arr2.get(j);
+            }
+            count++;
+            j++;
+        }
+        return ele;
+    }
+}
