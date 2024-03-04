@@ -1,0 +1,8 @@
+import java.util.*;
+
+public class Solution {
+    public static int firstOccurence(String text, String pat){
+        // Write your code here.
+        return text.indexOf(pat);
+    }
+}
