@@ -1,0 +1,111 @@
+import java.util.*;
+
+class TrieNode {
+    TrieNode[] children;
+    int end;
+    int count;
+
+    TrieNode() {
+        children = new TrieNode[26];
+        end = 0;
+        count = 0;
+    }
+
+    public boolean containsChild(char ch) {
+        return (children[ch - 'a'] != null);
+    }
+
+    public void put(char ch, TrieNode node) {
+        children[ch - 'a'] = node;
+    }
+
+    public TrieNode get(char ch) {
+        return children[ch - 'a'];
+    }
+
+    public void incrementEnd() {
+        end++;
+    }
+
+    public void incrementCount() {
+        count++;
+    }
+
+    public int getEnd() {
+        return end;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void deleteEnd() {
+        end--;
+    }
+
+    public void deleteCount() {
+        count--;
+    }
+}
+
+public class Trie {
+
+    private TrieNode root;
+
+    public Trie() {
+        root = new TrieNode();
+    }
+
+    public void insert(String word) {
+        TrieNode cur = root;
+        for (int i = 0; i < word.length(); i++) {
+            char ch = word.charAt(i);
+            if (!cur.containsChild(ch)) {
+                cur.put(ch, new TrieNode());
+            }
+            cur = cur.get(ch);
+            cur.incrementCount();
+        }
+        cur.incrementEnd();
+    }
+
+    public int countWordsEqualTo(String word) {
+        TrieNode cur = root;
+        for (int i = 0; i < word.length(); i++) {
+            char ch = word.charAt(i);
+            if (cur.containsChild(ch)) {
+                cur = cur.get(ch);
+            } else {
+                return 0;
+            }
+        }
+        return cur.getEnd();
+    }
+
+    public int countWordsStartingWith(String word) {
+        TrieNode cur = root;
+        for (int i = 0; i < word.length(); i++) {
+            char ch = word.charAt(i);
+            if (cur.containsChild(ch)) {
+                cur = cur.get(ch);
+            } else {
+                return 0;
+            }
+        }
+        return cur.getCount();
+    }
+
+    public void erase(String word) {
+        TrieNode cur = root;
+        for (int i = 0; i < word.length(); i++) {
+            char ch = word.charAt(i);
+            if (cur.containsChild(ch)) {
+                cur = cur.get(ch);
+                cur.deleteCount();
+            } else {
+                return;
+            }
+        }
+        cur.deleteEnd();
+    }
+}
