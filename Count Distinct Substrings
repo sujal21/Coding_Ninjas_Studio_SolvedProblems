@@ -1,0 +1,79 @@
+import java.util.ArrayList;
+
+class Node {
+    Node[] links;
+    boolean flag;
+
+    Node() {
+        links = new Node[26];
+        flag = false;
+    }
+
+    void put(char ch, Node node) {
+        links[ch - 'a'] = node;
+    }
+
+    Node get(char ch) {
+        return links[ch - 'a'];
+    }
+
+    boolean containsKey(char ch) {
+        return (links[ch - 'a'] != null);
+    }
+
+    void setEnd() {
+        flag = true;
+    }
+
+    boolean isEnd() {
+        return flag;
+    }
+}
+
+class Trie {
+    public static Node root;
+
+    Trie() {
+        root = new Node();
+    }
+
+    public static void insert(String word) {
+        Node node = root;
+        for (int i = 0; i < word.length(); i++) {
+            if (!node.containsKey(word.charAt(i))) {
+                node.put(word.charAt(i), new Node());
+            }
+            node = node.get(word.charAt(i));
+        }
+        node.setEnd();
+    }
+}
+
+public class Solution {
+    public static int countSub(Node node) {
+        if (node == null) {
+            return 0;
+        }
+        int count = 0;
+        if (node.isEnd()) {
+            count++;
+        }
+
+        for (Node child : node.links) {
+            count = count + countSub(child);
+        }
+        return count;
+    }
+
+    public static int countDistinctSubstrings(String s) {
+        Trie obj = new Trie();
+
+        for (int i = 0; i < s.length(); i++) {
+            for (int j = i; j < s.length(); j++) {
+                obj.insert(s.substring(i, j + 1));
+            }
+        }
+
+        return countSub(obj.root)+1;
+    }
+}
