@@ -1,0 +1,21 @@
+public class Solution {
+    public static int getXOR(int a, int b) {
+        // Write Your Code Here
+        return a ^ b;
+    }
+
+    public static int getBit(int c, int d) {
+        // Write Your Code Here
+        return 1 & (d >> c);
+    }
+
+    public static int setBit(int e, int f) {
+        // Write Your Code Here
+        int temp = f;
+        if ((1 & (f >> e)) == 1) {
+            return f;
+        } else {
+            return f ^ (1 << e);
+        }
+    }
+}
